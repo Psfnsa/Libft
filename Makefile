@@ -12,6 +12,10 @@
 
 NAME = libft.a
 
+INC = -I ./includes/
+
+FLAGS = -Wall -Werror -Wextra
+
 SRC = ft_memset.c \
 		ft_bzero.c \
 		ft_memcpy.c \
@@ -70,22 +74,53 @@ SRC = ft_memset.c \
 		ft_lstadd.c \
 		ft_lstiter.c \
 		ft_lstmap.c \
+		apply_flags.c \
+		char_handle.c \
+		ft_itoa_long.c \
+		ft_printf.c \
+		hex_handle.c \
+		init_data.c \
+		int_handler.c \
+		n_handle.c \
+		octal_handle.c \
+		parse_flags.c \
+		parse_length.c \
+		parse_precision.c \
+		parse_specifiers.c \
+		parse_width.c \
+		percent_handle.c \
+		print_string.c \
+		string_handle.c \
+		undefined_handle.c \
+		unsigned_handle.c \
+		wide_string.c \
+		binary_handle.c \
+		wide_things.c \
+		adress_handle.c \
 
-OBJ = $(SRC:.c=.o)
+### PATH ###
+SRCS_PATH = src/
+OBJ_PATH = obj/
 
-CFLAGS = -Wall -Werror -Wextra
+SRCS = $(addprefix $(SRCS_PATH), $(SRC))
+OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
 
 all: $(NAME)
 
-$(NAME):
-	@gcc $(CFLAGS) -c $(SRC)
+$(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 
+$(OBJ_PATH)%.o: $(SRCS_PATH)%.c
+	@mkdir -p $(OBJ_PATH)
+	@gcc -c $(FLAGS) $(INC) $< -o $@
+
 clean:
-	@/bin/rm -f $(OBJ)
+	@/bin/rm -rf $(OBJ_PATH)
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	@/bin/rm -rf $(NAME)
 
 re: fclean all
+
+.PHONY: all, clean, fclean, re
